@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Upload File</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        body {
+            background: #1edc42;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                <br>
+                <h4>Upload file with Model</h4>
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Title" required>
+                    <input type="file" onchange="ShowName()"  name="fileupload" class="form-control" id="upload" required>
+                    <input class="form-control btn btn-warning" type="submit" value="Upload">
+                </form>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                <img src="{% static 'upload_image/images/MES Logo.png' %}" alt="Logo" style="height:150px">
+                <h4>Django Image upload with Model Field.</h4>
+                <h4>Django 使用影像模組上傳圖片介紹。</h4>
+            </div>
+
+        </div>
+            <br><hr>
+        <div class="row">
+                {% for field in data %}
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+                        <div class="card mt-3" >
+                            <img src="{{ field.image.url }}" class="card-img-top" alt="title" style="height: 200px;">
+                            <div class="card-body">
+                                <p class="card-text">{{ field.title }}</p>
+                                <a href="{% url 'upload_image:delete' field.id %}" class="btn btn-danger">Delete</a>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal{{ field.id }}">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="Modal{{ field.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{% url 'upload_image:update' field.id %}" method="post" enctype="multipart/form-data" id="update_form{{ field.id }}">
+                                {% csrf_token %}
+                              <div class="mb-3">
+                                <label for="update_title" class="col-form-label">Title:</label>
+                                <input type="text" class="form-control" id="update_title" name="update_title" value="{{ field.title }}" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="update_image" class="col-form-label">Update Image:</label>
+                                <input type="file"  class="form-control" name="update_image" id="update_image"  required>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <input class="btn btn-warning" type="submit" value="UpDate" form="update_form{{ field.id }}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                {% endfor %}
+        </div>
+        <br><hr>
+        <div>
+            <h4>This is the footer.</h4>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+    </script>
+
+    <script>
+    function ShowName() {
+        var filename = document.getElementById("upload").files[0].name;
+        console.log(filename);
+        document.getElementById("title").value = filename.split(".")[0];
+    }
+    </script>
+</body>
+</html>
