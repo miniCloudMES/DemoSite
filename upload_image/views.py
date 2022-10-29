@@ -71,4 +71,4 @@ def pre_save_image(sender, instance, *args, **kwargs):
             if os.path.exists(old_img):
                 os.remove(old_img)
     except Exception as e:
-        print('Error:', e)
+        print('Pre Save Info:', e)
