@@ -45,13 +45,13 @@
                         <img src="{{ icon.image.url }}" class="card-img-top" alt="{{ icon.Title }}" style="height: 200px;">
                         </a>
                         <div class="card-body">
-                            <p class="card-text">{{ icon.Title }}</p>
+                            <p class="card-text">{{ icon.title }}</p>
                             <a href="{% url 'upload_image:delete' icon.id %}" class="btn btn-danger">Delete</a>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal{{ icon.id }}">Update</button>
                         </div>
                     </div>
                 </div>
-                <!-- Modal -->
+                <!-- Show Image Modal -->
                 <div class="modal fade" id="exampleModal{{ icon.id }}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -68,6 +68,34 @@
                     </div>
                   </div>
                 </div>
+                <!-- Update Form Modal -->
+                <div class="modal fade" id="Modal{{ icon.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{% url 'upload_image:update' icon.id %}" method="post" enctype="multipart/form-data" id="update_form{{ icon.id }}">
+                                {% csrf_token %}
+                              <div class="mb-3">
+                                <label for="update_title" class="col-form-label">Title:</label>
+                                <input type="text" class="form-control" id="update_title" name="update_title" value="{{ icon.title }}" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="update_image" class="col-form-label">Update Image:</label>
+                                <input type="file"  class="form-control" name="update_image" id="update_image"  required>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <input class="btn btn-warning" type="submit" value="UpDate" form="update_form{{ icon.id }}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
             {% endfor %}
         </div>
         <br><hr>
