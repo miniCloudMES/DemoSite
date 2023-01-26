@@ -81,14 +81,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        # 以下使用 mysql.connector.django 接 pythonanywhere MySQL伺服器
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'karolin4949$demo',
-        # 'USER': 'karolin4949',
-        # 'PASSWORD': 'player123456',
-        # 'HOST': 'karolin4949.mysql.pythonanywhere-services.com',
-        # 'PORT': '3306',
-
     }
 }
 
